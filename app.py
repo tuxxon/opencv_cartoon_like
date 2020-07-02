@@ -85,6 +85,7 @@ def lambda_handler(event, context):
     #
     s3.upload_file(conv_filename, BUCKET_NAME, s3_filename)
 
+    j = {}
     images = {
         "source" : S3_URL.format(
             bucketName = BUCKET_NAME, 
