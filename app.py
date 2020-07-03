@@ -50,8 +50,8 @@ def lambda_handler(event, context):
     #
     # S3 files
     #
-    s3_filename='public/{}/normal_cartoon{}'.format(h, ext)
-    s3_paramfile='public/{}/normal_cartoon.json'.format(h) 
+    s3_filename='public/{}/normal-cartoon{}'.format(h, ext)
+    s3_paramfile='public/{}/normal-cartoon.json'.format(h) 
 
     if os.path.exists(down_filename):
         os.remove(down_filename)
