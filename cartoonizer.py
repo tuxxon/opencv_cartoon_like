@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 import argparse
 import cv2
 import numpy as np
@@ -8,7 +8,7 @@ from collections import defaultdict
 from scipy import stats
 
 
-def cartoonize(image):
+def cartoonize(image, min_v, max_v):
     """
     convert image into cartoon-like image
     image: input PIL image
@@ -21,7 +21,7 @@ def cartoonize(image):
         output[:, :, i] = cv2.bilateralFilter(output[:, :, i], 5, 50, 50)
         # hist, _ = np.histogram(output[:, :, i], bins=np.arange(256+1))
         # hists.append(hist)
-    edge = cv2.Canny(output, 100, 200)
+    edge = cv2.Canny(output, min_v, max_v)
 
     output = cv2.cvtColor(output, cv2.COLOR_RGB2HSV)
 
@@ -140,7 +140,7 @@ if __name__ == '__main__':
     # image = Image.open(args.input)
     image = cv2.imread(args.input)
     start_time = time.time()
-    output = cartoonize(image)
+    output = cartoonize(image, 100, 200)
     end_time = time.time()
     t = end_time-start_time
     print('time: {0}s'.format(t))

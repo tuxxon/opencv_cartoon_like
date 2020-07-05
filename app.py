@@ -35,6 +35,9 @@ def lambda_handler(event, context):
     print("[DEBUG] event = {}".format(event))
 
     src_filename =event.get("name", None)
+    min_v = event.get("min", 100)
+    max_v = event.get("max", 200)
+
     filename_set = os.path.splitext(src_filename)
     basename = filename_set[0]
     ext = filename_set[1]
@@ -77,7 +80,7 @@ def lambda_handler(event, context):
             raise
 
     image = cv2.imread(down_filename)
-    output = cartoonizer.cartoonize(image)
+    output = cartoonizer.cartoonize(image, min_v, max_v)
     cv2.imwrite(conv_filename, output)
 
     #
