@@ -37,6 +37,7 @@ def lambda_handler(event, context):
     src_filename =event.get("name", None)
     min_v = event.get("min", 100)
     max_v = event.get("max", 200)
+    change_fullimage = event.get("min",False)
 
     filename_set = os.path.splitext(src_filename)
     basename = filename_set[0]
@@ -88,7 +89,18 @@ def lambda_handler(event, context):
     #
     s3.upload_file(conv_filename, BUCKET_NAME, s3_filename)
 
-    j = {}
+    #
+    # Save params for sketchify whenever converting fullimage.
+    #
+    j = {
+        "min" : min_v,
+        "max" : max_v
+    }
+    if change_fullimage != False:
+        with open(down_jsonfile,'w') as f:
+            f.write(json.dumps(j))
+        s3.upload_file(down_jsonfile, BUCKET_NAME, s3_paramfile)
+
     images = {
         "source" : S3_URL.format(
             bucketName = BUCKET_NAME, 
